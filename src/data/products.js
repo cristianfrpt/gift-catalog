@@ -6,6 +6,7 @@ export const products = [
     category: "Cozinha",
     price: 149.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 2,
@@ -13,6 +14,7 @@ export const products = [
     category: "Cozinha",
     price: 79.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 3,
@@ -20,6 +22,7 @@ export const products = [
     category: "Cozinha",
     price: 249.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   
   {
@@ -28,6 +31,7 @@ export const products = [
     category: "Cozinha",
     price: 399.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 5,
@@ -35,6 +39,7 @@ export const products = [
     category: "Cozinha",
     price: 349.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 6,
@@ -42,6 +47,7 @@ export const products = [
     category: "Cozinha",
     price: 59.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 7,
@@ -49,6 +55,7 @@ export const products = [
     category: "Cozinha",
     price: 129.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 8,
@@ -56,6 +63,7 @@ export const products = [
     category: "Cozinha",
     price: 119.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 9,
@@ -63,6 +71,7 @@ export const products = [
     category: "Cozinha",
     price: 179.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 10,
@@ -70,6 +79,7 @@ export const products = [
     category: "Cozinha",
     price: 89.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 11,
@@ -77,6 +87,7 @@ export const products = [
     category: "Cozinha",
     price: 99.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 12,
@@ -84,6 +95,7 @@ export const products = [
     category: "Cozinha",
     price: 79.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 13,
@@ -91,6 +103,7 @@ export const products = [
     category: "Cozinha",
     price: 99.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
 
   // Eletrodomésticos
@@ -100,12 +113,14 @@ export const products = [
     category: "Eletrodomésticos",
     price: 1199.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },{
     id: 15,
     name: "Cooktop",
     category: "Eletrodomésticos",
     price: 699.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 16,
@@ -113,6 +128,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 299.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 17,
@@ -120,6 +136,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 899.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 18,
@@ -127,6 +144,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 159.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 19,
@@ -134,6 +152,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 549.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 20,
@@ -141,6 +160,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 499.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 21,
@@ -148,6 +168,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 899.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 22,
@@ -155,6 +176,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 2299.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 23,
@@ -162,6 +184,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 349.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 24,
@@ -169,6 +192,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 3299.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 25,
@@ -176,6 +200,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 2199.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 26,
@@ -183,6 +208,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 249.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 27,
@@ -190,6 +216,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 2499.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 28,
@@ -197,6 +224,7 @@ export const products = [
     category: "Eletrodomésticos",
     price: 1499.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
 
   // Banheiro
@@ -206,6 +234,7 @@ export const products = [
     category: "Banheiro",
     price: 89.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 30,
@@ -213,6 +242,7 @@ export const products = [
     category: "Banheiro",
     price: 119.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 31,
@@ -220,6 +250,7 @@ export const products = [
     category: "Banheiro",
     price: 49.90,
     image: "/images/product-ph.jpg",
+    status: "unavailable",
   },
   {
     id: 32,
@@ -227,6 +258,7 @@ export const products = [
     category: "Banheiro",
     price: 199.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 33,
@@ -234,6 +266,7 @@ export const products = [
     category: "Banheiro",
     price: 89.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
 
   // Móveis e decoração
@@ -243,6 +276,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 299.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 35,
@@ -250,6 +284,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 899.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 36,
@@ -257,6 +292,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 249.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 37,
@@ -264,6 +300,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 699.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 38,
@@ -271,6 +308,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 179.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 39,
@@ -278,6 +316,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 799.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 40,
@@ -285,6 +324,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 149.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 41,
@@ -292,6 +332,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 299.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 42,
@@ -299,6 +340,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 249.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 43,
@@ -306,6 +348,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 399.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 44,
@@ -313,6 +356,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 1699.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 45,
@@ -320,6 +364,7 @@ export const products = [
     category: "Móveis e decoração",
     price: 1399.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
 
   // Quarto
@@ -329,6 +374,7 @@ export const products = [
     category: "Quarto",
     price: 119.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 47,
@@ -336,6 +382,7 @@ export const products = [
     category: "Quarto",
     price: 249.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 48,
@@ -343,6 +390,7 @@ export const products = [
     category: "Quarto",
     price: 99.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
 
   // Utilidades
@@ -352,6 +400,7 @@ export const products = [
     category: "Utilidades",
     price: 349.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 50,
@@ -359,6 +408,7 @@ export const products = [
     category: "Utilidades",
     price: 179.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 51,
@@ -366,6 +416,7 @@ export const products = [
     category: "Utilidades",
     price: 1299.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 52,
@@ -373,6 +424,7 @@ export const products = [
     category: "Utilidades",
     price: 149.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 53,
@@ -380,6 +432,7 @@ export const products = [
     category: "Utilidades",
     price: 99.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 54,
@@ -387,6 +440,7 @@ export const products = [
     category: "Utilidades",
     price: 139.90,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
   {
     id: 55,
@@ -394,5 +448,6 @@ export const products = [
     category: "Utilidades",
     price: 0.0,
     image: "/images/product-ph.jpg",
+    status: "available",
   },
 ]

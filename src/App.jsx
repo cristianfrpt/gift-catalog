@@ -60,7 +60,7 @@ function App() {
             </p>
 
             <p>
-              📅 23 de Junho de 2026
+              📅 24 de Junho de 2026
             </p>
 
             <p>
@@ -104,33 +104,50 @@ function App() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-          {filteredProducts.map((product) => (
+          {filteredProducts.map((product) => {
+            const isUnavailable = product.status !== "available"
 
-            <div
-              key={product.id}
-              onClick={() => setSelectedProduct(product)}
-              className="bg-white rounded-2xl shadow-sm p-4 transition hover:shadow-md cursor-pointer"
-            >
+            return (
+              <div
+                key={product.id}
+                onClick={() => {
+                  if (isUnavailable) return
+                  setSelectedProduct(product)
+                }}
+                className={`
+                  bg-white rounded-2xl shadow-sm p-4 transition
+                  ${isUnavailable
+                    ? "opacity-40 cursor-not-allowed"
+                    : "hover:shadow-md cursor-pointer"
+                  }
+                `}
+              >
 
-              <div className="aspect-square w-full bg-[#E8E2DA] rounded-xl mb-4 overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
+                <div className="aspect-square w-full bg-[#E8E2DA] rounded-xl mb-4 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                <h3 className="text-xl font-medium text-[#4E5A4A]">
+                  {product.name}
+                </h3>
+
+                {isUnavailable && (
+                  <p className="text-sm text-red-400 mt-1">
+                    Indisponível
+                  </p>
+                )}
+
+                <p className="text-[#6B7567] mt-2">
+                  R$ {product.price.toLocaleString("pt-BR", { minimumFractionDigits: 2, })}
+                </p>
+
               </div>
-
-              <h3 className="text-xl font-medium text-[#4E5A4A]">
-                {product.name}
-              </h3>
-
-              <p className="text-[#6B7567] mt-2">
-                R$ {product.price.toLocaleString("pt-BR", { minimumFractionDigits: 2, })}
-              </p>
-
-            </div>
-
-          ))}
+            )
+          })}
 
         </div>
 
