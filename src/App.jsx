@@ -61,7 +61,7 @@ function App() {
           </div>
 
           {/* Título */}
-          <h1 className="text-4xl md:text-5xl font-semibold text-[#3F4A3C]">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#3F4A3C] leading-tight px-2 text-center">
             Chá de Casa Nova da Cami
           </h1>
 
@@ -73,8 +73,8 @@ function App() {
           {/* Informações do evento */}
           <div className="mt-10 bg-white/60 backdrop-blur-sm rounded-2xl py-3 px-5 shadow-sm space-y-2 text-[#3F4A3C] text-lg">
 
-            <div className="flex items-center justify-center gap-3">
-              <p className="leading-relaxed">
+            <div className="flex items-center  justify-center gap-3">
+              <p className="leading-snug text-center sm:text-left break-words">
                 📍 {address}
               </p>
 
