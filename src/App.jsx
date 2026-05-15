@@ -6,6 +6,7 @@ import bannerImg from "./assets/images/banner.jpg"
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("Todos")
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [copiedAddress, setCopiedAddress] = useState(false)
   const categories = [
     "Todos",
     ...new Set(products.map((product) => product.category)),
@@ -38,13 +39,15 @@ function App() {
 
   function copyAddress() {
     navigator.clipboard?.writeText(address)
+    setCopiedAddress(true)
+    setTimeout(() => setCopiedAddress(false), 2000)
   }
 
   return (
     <div className="min-h-screen bg-[#F7F3EE]">
 
       {/* Banner */}
-      <section className="w-full min-h-[500px] bg-[#DDE6D5] flex items-center justify-center px-6 py-16">
+      <section className="w-full min-h-[500px] bg-[#CFDCC8] flex items-center justify-center px-6 py-16">
 
         <div className="text-center max-w-2xl">
 
@@ -58,7 +61,7 @@ function App() {
           </div>
 
           {/* Título */}
-          <h1 className="text-4xl md:text-5xl font-semibold text-[#4E5A4A]">
+          <h1 className="text-4xl md:text-5xl font-semibold text-[#3F4A3C]">
             Chá de Casa Nova da Cami
           </h1>
 
@@ -77,19 +80,23 @@ function App() {
 
               <button
                 onClick={copyAddress}
-                className="
+                className={`
                   w-8 h-8
                   flex items-center justify-center
                   rounded-full
-                  bg-white/80
-                  hover:bg-white
                   shadow-sm
+                  transition-all duration-200
                   hover:scale-105
-                  transition-all
-                  duration-200
-                "
+
+                  ${copiedAddress
+                    ? "bg-[#CFDCC8] text-[#3F4A3C]"
+                    : "bg-white/80 hover:bg-white text-[#4E5A4A]"
+                  }
+                `}
               >
-                <span className="text-base">⧉</span>
+                <span className="text-base">
+                  {copiedAddress ? "✓" : "📋"}
+                </span>
               </button>
             </div>
 
