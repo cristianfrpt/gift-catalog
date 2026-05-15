@@ -74,8 +74,10 @@ function App() {
           <div className="mt-10 bg-white/60 backdrop-blur-sm rounded-2xl py-3 px-5 shadow-sm space-y-2 text-[#3F4A3C] text-lg">
 
             <div className="flex items-center  justify-center gap-3">
+
+              <span className="shrink-0 mt-[2px]">📍</span>
               <p className="leading-snug text-center sm:text-left break-words">
-                📍 {address}
+                {address}
               </p>
 
               <button
