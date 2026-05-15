@@ -230,7 +230,7 @@ export const products = [
   // Banheiro
   {
     id: 29,
-    name: "Assento vaso",
+    name: "Assento do vaso",
     category: "Banheiro",
     price: 89.90,
     image: "/images/product-ph.jpg",
@@ -312,7 +312,7 @@ export const products = [
   },
   {
     id: 39,
-    name: "Rack TV",
+    name: "Rack para TV",
     category: "Móveis e decoração",
     price: 799.90,
     image: "/images/product-ph.jpg",

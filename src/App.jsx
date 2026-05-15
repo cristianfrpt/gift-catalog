@@ -216,7 +216,7 @@ function App() {
             </button>
 
             {/* Imagem */}
-            <div className="aspect-square w-full max-w-[220px] mx-auto bg-[#E8E2DA] rounded-2xl mb-6 mt-8 overflow-hidden">
+            <div className="aspect-square w-full max-w-[220px] mx-auto bg-[#E8E2DA] rounded-2xl mb-5 mt-8 overflow-hidden">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
@@ -230,12 +230,12 @@ function App() {
             </h2>
 
             {/* Preço */}
-            <p className="mt-6 text-2xl font-semibold text-[#5F6B5C] text-center">
+            <p className="mt-3 text-2xl font-semibold text-[#5F6B5C] text-center">
               R$ {selectedProduct.price.toLocaleString("pt-BR", { minimumFractionDigits: 2, })}
             </p>
 
             {/* QR Code */}
-            <div className="mt-8 flex flex-col items-center">
+            <div className="mt-6 flex flex-col items-center">
 
               <div className="w-48 h-48 bg-white rounded-2xl shadow-sm overflow-hidden p-2">
                 <img
