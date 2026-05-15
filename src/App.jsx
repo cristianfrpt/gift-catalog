@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { products } from "./data/products"
 import qrCodeImg from "./assets/images/qrcode-ph.jpg"
+import bannerImg from "./assets/images/banner.jpg"
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("Todos")
@@ -15,10 +16,16 @@ function App() {
       : products.filter(
         (product) => product.category === selectedCategory
       )
-  ).sort((a, b) => a.price - b.price)
+  ).sort((a, b) => {
+    if (a.status === "available" && b.status !== "available") return -1
+    if (a.status !== "available" && b.status === "available") return 1
+    return a.price - b.price
+  })
 
+  const address = "R. Francisco Silveira Dias Filho, 337 - Jardim Itu Planalto"
   const pixCode = "teste"
   const [copied, setCopied] = useState(false)
+  
   useEffect(() => {
     setCopied(false)
   }, [selectedProduct])
@@ -27,6 +34,10 @@ function App() {
     navigator.clipboard?.writeText(pixCode)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  function copyAddress() {
+    navigator.clipboard?.writeText(address)
   }
 
   return (
@@ -38,8 +49,12 @@ function App() {
         <div className="text-center max-w-2xl">
 
           {/* Foto */}
-          <div className="w-40 h-40 mx-auto rounded-full bg-white shadow-lg mb-8 overflow-hidden">
-            {/* FOTO AQUI */}
+          <div className="w-72 h-72 mx-auto rounded-full bg-white shadow-lg mb-8 overflow-hidden border-4 border-white">
+            <img
+              src={bannerImg}
+              alt="Banner"
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* Título */}
@@ -48,16 +63,35 @@ function App() {
           </h1>
 
           {/* Mensagem */}
-          <p className="mt-5 text-[#6B7567] text-lg leading-relaxed">
+          <p className="mt-5 text-[#3F4A3C] text-lg leading-relaxed">
             Obrigada por fazer parte desse momento especial 💚
           </p>
 
           {/* Informações do evento */}
-          <div className="mt-10 bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm space-y-3 text-[#5F6B5C] text-lg">
+          <div className="mt-10 bg-white/60 backdrop-blur-sm rounded-2xl py-3 px-5 shadow-sm space-y-2 text-[#3F4A3C] text-lg">
 
-            <p className="leading-relaxed">
-              📍 R. Francisco Silveira Dias Filho, 337 - Jardim Itu Planalto
-            </p>
+            <div className="flex items-center justify-center gap-3">
+              <p className="leading-relaxed">
+                📍 {address}
+              </p>
+
+              <button
+                onClick={copyAddress}
+                className="
+                  w-8 h-8
+                  flex items-center justify-center
+                  rounded-full
+                  bg-white/80
+                  hover:bg-white
+                  shadow-sm
+                  hover:scale-105
+                  transition-all
+                  duration-200
+                "
+              >
+                <span className="text-base">⧉</span>
+              </button>
+            </div>
 
             <p>
               📅 24 de Junho de 2026
