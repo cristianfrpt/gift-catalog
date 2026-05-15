@@ -31,6 +31,32 @@ function App() {
     setCopied(false)
   }, [selectedProduct])
 
+  useEffect(() => {
+    function handleEsc(e) {
+      if (e.key === "Escape") {
+        setSelectedProduct(null)
+      }
+    }
+
+    window.addEventListener("keydown", handleEsc)
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (selectedProduct) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [selectedProduct])
+
   function copyPixCode() {
     navigator.clipboard?.writeText(pixCode)
     setCopied(true)
@@ -159,10 +185,12 @@ function App() {
                   setSelectedProduct(product)
                 }}
                 className={`
-                  bg-white rounded-2xl shadow-sm p-4 transition
+                  bg-white rounded-2xl shadow-sm p-4
+                  transition-all duration-300 ease-out
+                  transform
                   ${isUnavailable
                     ? "opacity-40 cursor-not-allowed"
-                    : "hover:shadow-md cursor-pointer"
+                    : "hover:shadow-xl hover:-translate-y-1 cursor-pointer"
                   }
                 `}
               >
@@ -265,6 +293,20 @@ function App() {
 
         </div>
       )}
+
+      <footer className="py-10 px-6 text-center">
+        <div className="max-w-3xl mx-auto border-t border-[#D9E0D4] pt-6">
+
+          <p className="text-[#6B7567] text-sm">
+            Feito com 💚 para celebrar esse momento especial
+          </p>
+
+          <p className="text-[#9AA394] text-xs mt-2">
+            Chá de Casa Nova da Cami • 2026
+          </p>
+
+        </div>
+      </footer>
     </div>
   )
 }
