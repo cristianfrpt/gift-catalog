@@ -47,7 +47,7 @@ function App() {
     <div className="min-h-screen bg-[#F7F3EE]">
 
       {/* Banner */}
-      <section className="w-full min-h-[500px] bg-[#CFDCC8] flex items-center justify-center px-6 py-16">
+      <section className="w-full min-h-[500px] bg-[#CFDCC8] flex items-center justify-center px-6 py-16 select-none">
 
         <div className="text-center max-w-2xl">
 
@@ -56,6 +56,7 @@ function App() {
             <img
               src={bannerImg}
               alt="Banner"
+              draggable={false}
               className="w-full h-full object-cover"
             />
           </div>
