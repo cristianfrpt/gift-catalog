@@ -12,7 +12,8 @@ function App() {
     selectedCategory,
     setSelectedCategory,
     categories,
-    filteredProducts,
+    filteredProducts, 
+    loading,
   } = useProducts()
 
   const { selectedProduct, setSelectedProduct } = useProductModal()
@@ -34,14 +35,18 @@ function App() {
 
       <main className="max-w-7xl mx-auto px-6 py-12">
 
-        <ProductSection
-          title="Presentes"
-          categories={categories}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          products={filteredProducts}
-          onSelect={setSelectedProduct}
-        />
+        {loading ? (
+          <p>Carregando...</p>
+        ) : (
+          <ProductSection
+            title="Presentes"
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            products={filteredProducts}
+            onSelect={setSelectedProduct}
+          />
+        )}
 
       </main>
 

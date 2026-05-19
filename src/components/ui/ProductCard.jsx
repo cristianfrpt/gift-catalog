@@ -1,5 +1,5 @@
 function ProductCard({ product, onSelect }) {
-  const isUnavailable = product.status !== "available"
+  const isUnavailable = !product.available
 
   return (
     <div

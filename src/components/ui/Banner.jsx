@@ -20,7 +20,8 @@ function Banner({
 
                 {/* Título */}
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#3F4A3C] leading-tight px-2 text-center">
-                Chá de Casa Nova da Cami
+                Chá de Casa Nova <br />
+                Cami e Gabi
                 </h1>
 
                 {/* Mensagem */}
