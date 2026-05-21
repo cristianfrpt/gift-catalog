@@ -36,7 +36,18 @@ function App() {
       <main className="max-w-7xl mx-auto px-6 py-12">
 
         {loading ? (
-          <p>Carregando...</p>
+          <div className="grid grid-cols-2 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="animate-pulse bg-white rounded-2xl p-4"
+              >
+                <div className="aspect-square bg-[#E8E2DA] rounded-xl mb-4" />
+                <div className="h-4 bg-[#E8E2DA] rounded w-3/4 mb-2" />
+                <div className="h-4 bg-[#E8E2DA] rounded w-1/2" />
+              </div>
+            ))}
+          </div>
         ) : (
           <ProductSection
             title="Presentes"
