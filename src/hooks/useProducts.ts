@@ -6,7 +6,6 @@ export function useProducts() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
   const [selectedCategory, setSelectedCategory] = useState("Todos")
 
   useEffect(() => {
@@ -19,11 +18,10 @@ export function useProducts() {
         .select("*")
 
       if (error) {
-        console.error(error)
         setError(error.message)
         setProducts([])
       } else {
-        setProducts((data as Product[]) || [])
+        setProducts((data ?? []) as Product[])
       }
 
       setLoading(false)
@@ -32,35 +30,37 @@ export function useProducts() {
     fetchProducts()
   }, [])
 
+  const { giftProducts, fixedProducts } = useMemo(() => {
+    return {
+      giftProducts: products.filter(
+        (p): p is Extract<Product, { type: "gift" }> => p.type === "gift"
+      ),
+      fixedProducts: products.filter(
+        (p): p is Extract<Product, { type: "fixed" }> => p.type === "fixed"
+      ),
+    }
+  }, [products])
+
   const categories = useMemo(() => {
-    return ["Todos", ...new Set(products.map(p => p.category))]
-  }, [products, selectedCategory])
+    const cats = fixedProducts.map(p => p.category)
+    return ["Todos", ...Array.from(new Set(cats))]
+  }, [fixedProducts])
 
-    const giftProducts = useMemo(
-      () => products.filter(p => p.type === "gift"),
-      [products]
-    )
+  const filteredProducts = useMemo(() => {
+    const base =
+      selectedCategory === "Todos"
+        ? fixedProducts
+        : fixedProducts.filter(p => p.category === selectedCategory)
 
-    const fixedProducts = useMemo(
-      () => products.filter(p => p.type !== "gift"),
-      [products]
-    )
+    const sorted = base
+      .map(p => ({
+        ...p,
+        weight: p.price * 0.1 + Math.random() * 250,
+      }))
+      .sort((a, b) => a.weight - b.weight)
 
-    const filteredProducts = useMemo(() => {
-      const base =
-        selectedCategory === "Todos"
-          ? fixedProducts
-          : fixedProducts.filter(p => p.category === selectedCategory)
-
-      const sorted = base
-        .map(p => ({
-          ...p,
-          weight: p.price * 0.1 + Math.random() * 250,
-        }))
-        .sort((a, b) => a.weight - b.weight)
-
-      return giftProducts.length > 0 ? [...giftProducts, ...sorted] : sorted
-    }, [fixedProducts, giftProducts, selectedCategory])
+    return [...giftProducts, ...sorted]
+  }, [fixedProducts, giftProducts, selectedCategory])
 
   return {
     products,
