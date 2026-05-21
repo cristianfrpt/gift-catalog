@@ -1,5 +1,4 @@
 import ProductModal from "./ProductModal"
-
 import type { Product } from "../../types/product"
 
 type ProductModalContainerProps = {

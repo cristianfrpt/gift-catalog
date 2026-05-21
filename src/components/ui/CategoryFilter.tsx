@@ -1,8 +1,14 @@
+type CategoryFilterProps = {
+  categories: string[]
+  selectedCategory: string
+  setSelectedCategory: (category: string) => void
+}
+
 export default function CategoryFilter({
   categories,
   selectedCategory,
   setSelectedCategory,
-}) {
+}: CategoryFilterProps) {
   return (
     <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
       {categories.map((category) => (

@@ -1,11 +1,4 @@
-type Product = {
-  id: string | number
-  name: string
-  price: number
-  image: string
-  available?: boolean
-  type?: string
-}
+import type { Product } from "../../types/product"
 
 type ProductCardProps = {
   product: Product
@@ -56,7 +49,7 @@ export default function ProductCard({
         )}
 
         <div className="mt-auto pt-2">
-          {product.price > 0 ? (
+          {product.price != null && product.price > 0 ? (
             <p className="text-xs sm:text-sm text-[#6B7567]">
               R${" "}
               {product.price.toLocaleString("pt-BR", {

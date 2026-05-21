@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react"
+import type { Product } from "../../types/product"
+
+type ProductModalProps = {
+  product: Product | null
+  onClose: () => void
+}
 
 export default function ProductModal({
   product,
   onClose,
-}) {
+}: ProductModalProps) {
   const [pixData, setPixData] = useState(null)
   const [loadingPix, setLoadingPix] = useState(false)
   const [copiedPix, setCopiedPix] = useState(false)

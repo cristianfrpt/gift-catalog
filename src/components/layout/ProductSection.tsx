@@ -1,13 +1,6 @@
 import CategoryFilter from "../ui/CategoryFilter"
 import ProductGrid from "../products/ProductGrid"
-
-type Product = {
-  id: string | number
-  name: string
-  price: number
-  image: string
-  type?: string
-}
+import type { Product } from "../../types/product"
 
 type ProductSectionProps = {
   title: string
