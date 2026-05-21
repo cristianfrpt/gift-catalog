@@ -1,18 +1,23 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function ProductModal({
   product,
   onClose,
-  onCopyPix,
-  copied,
 }) {
   const [pixData, setPixData] = useState(null)
   const [loadingPix, setLoadingPix] = useState(false)
   const [copiedPix, setCopiedPix] = useState(false)
   const [customAmount, setCustomAmount] = useState("")
-  const isGift = product.type === "gift"
+  const isGift = product?.type === "gift"
 
   if (!product) return null
+
+  useEffect(() => {
+    setPixData(null)
+    setLoadingPix(false)
+    setCopiedPix(false)
+    setCustomAmount("")
+  }, [product])
 
   const generatePix = async () => {
     try {

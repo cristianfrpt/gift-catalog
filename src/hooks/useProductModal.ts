@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react"
 
+export type Product = {
+  id: string | number
+  name: string
+  price: number
+  image: string
+  type?: string
+}
+
 export function useProductModal() {
-  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   useEffect(() => {
-    function handleEsc(e) {
+    function handleEsc(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setSelectedProduct(null)
       }

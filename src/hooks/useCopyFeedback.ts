@@ -1,9 +1,11 @@
 import { useState } from "react"
 
 export function useCopyFeedback() {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState<boolean>(false)
 
-  function copy(text) {
+  function copy(text: string) {
+    if (!text) return
+
     navigator.clipboard?.writeText(text)
     setCopied(true)
 

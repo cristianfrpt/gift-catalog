@@ -18,11 +18,9 @@ function App() {
 
   const { selectedProduct, setSelectedProduct } = useProductModal()
 
-  const { copied: copiedPix, copy: copyPix } = useCopyFeedback()
   const { copied: copiedAddress, copy: copyAddress } = useCopyFeedback()
 
   const address = "R. Francisco Silveira Dias Filho, 337 - Jardim Itu Planalto"
-  const pixCode = "teste"
 
   return (
      <div className="min-h-screen bg-[#F7F3EE]">
@@ -64,9 +62,6 @@ function App() {
       <ProductModalContainer
         selectedProduct={selectedProduct}
         setSelectedProduct={setSelectedProduct}
-        copyPix={copyPix}
-        copied={copiedPix}
-        pixCode={pixCode}
       />
 
       <Footer />

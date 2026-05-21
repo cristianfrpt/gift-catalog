@@ -1,4 +1,21 @@
-function ProductCard({ product, onSelect }) {
+type Product = {
+  id: string | number
+  name: string
+  price: number
+  image: string
+  available?: boolean
+  type?: string
+}
+
+type ProductCardProps = {
+  product: Product
+  onSelect: (product: Product) => void
+}
+
+export default function ProductCard({
+  product,
+  onSelect,
+}: ProductCardProps) {
   const isUnavailable = !product.available
 
   return (
@@ -12,9 +29,10 @@ function ProductCard({ product, onSelect }) {
         transition-all duration-300 ease-out transform
         flex flex-col h-full
 
-        ${isUnavailable
-          ? "opacity-40 cursor-not-allowed"
-          : "hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+        ${
+          isUnavailable
+            ? "opacity-40 cursor-not-allowed"
+            : "hover:shadow-xl hover:-translate-y-1 cursor-pointer"
         }
       `}
     >
@@ -40,7 +58,8 @@ function ProductCard({ product, onSelect }) {
         <div className="mt-auto pt-2">
           {product.price > 0 ? (
             <p className="text-xs sm:text-sm text-[#6B7567]">
-              R$ {product.price.toLocaleString("pt-BR", {
+              R${" "}
+              {product.price.toLocaleString("pt-BR", {
                 minimumFractionDigits: 2,
               })}
             </p>
@@ -54,5 +73,3 @@ function ProductCard({ product, onSelect }) {
     </div>
   )
 }
-
-export default ProductCard

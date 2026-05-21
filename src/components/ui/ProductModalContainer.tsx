@@ -1,20 +1,22 @@
 import ProductModal from "./ProductModal"
 
+import type { Product } from "../../types/product"
+
+type ProductModalContainerProps = {
+  selectedProduct: Product | null
+  setSelectedProduct: (product: Product | null) => void
+}
+
 export default function ProductModalContainer({
   selectedProduct,
   setSelectedProduct,
-  copyPix,
-  copied,
-  pixCode,
-}) {
+}: ProductModalContainerProps) {
   if (!selectedProduct) return null
 
   return (
     <ProductModal
       product={selectedProduct}
       onClose={() => setSelectedProduct(null)}
-      onCopyPix={() => copyPix(pixCode)}
-      copied={copied}
     />
   )
 }
