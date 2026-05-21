@@ -11,11 +11,11 @@ export type FixedProduct = {
 export type GiftProduct = {
   id: number
   name: string
-  category: string
   image: string
   available: boolean
   type: "gift"
   price?: never
+  category?: never
 }
 
 export type Product = FixedProduct | GiftProduct

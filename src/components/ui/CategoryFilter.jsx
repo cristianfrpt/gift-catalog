@@ -4,16 +4,17 @@ export default function CategoryFilter({
   setSelectedCategory,
 }) {
   return (
-    <div className="flex flex-wrap gap-3 mb-8">
+    <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
       {categories.map((category) => (
         <button
           key={category}
           onClick={() => setSelectedCategory(category)}
           className={`
-            px-5 py-2 rounded-full whitespace-nowrap
-            font-medium text-sm
+            px-3 sm:px-5 py-2 rounded-full
+            font-medium text-xs sm:text-sm
             transition-all duration-200 ease-in-out
             border border-[#5F6B5C]
+            whitespace-nowrap
 
             ${
               selectedCategory === category
