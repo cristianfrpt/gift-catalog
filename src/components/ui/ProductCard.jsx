@@ -25,7 +25,7 @@ function ProductCard({ product, onSelect }) {
         />
       </div>
 
-      <h3 className="text-xl font-medium text-[#4E5A4A]">
+      <h3 className="text-sm sm:text-base font-medium text-[#4E5A4A]">
         {product.name}
       </h3>
 
