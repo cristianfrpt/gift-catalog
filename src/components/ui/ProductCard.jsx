@@ -19,7 +19,7 @@ function ProductCard({ product, onSelect }) {
     >
       <div className="aspect-square w-full bg-[#E8E2DA] rounded-xl mb-4 overflow-hidden">
         <img
-          src={product.image}
+          src={`/images/products/${product.image}`}
           alt={product.name}
           className="w-full h-full object-cover"
         />

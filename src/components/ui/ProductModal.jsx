@@ -70,7 +70,7 @@ export default function ProductModal({
 
         <div className="aspect-square w-full max-w-[220px] mx-auto bg-[#E8E2DA] rounded-2xl mb-5 mt-8 overflow-hidden">
           <img
-            src={product.image}
+            src={`/images/products/${product.image}`}
             alt={product.name}
             className="w-full h-full object-cover"
             draggable={false}
