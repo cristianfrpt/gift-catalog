@@ -18,7 +18,6 @@ function ProductCard({ product, onSelect }) {
         }
       `}
     >
-      {/* IMAGEM */}
       <div className="aspect-square w-full bg-[#E8E2DA] rounded-xl mb-2 sm:mb-4 overflow-hidden">
         <img
           src={`/images/products/${product.image}`}
@@ -27,7 +26,6 @@ function ProductCard({ product, onSelect }) {
         />
       </div>
 
-      {/* CONTEÚDO */}
       <div className="flex flex-col flex-1">
         <h3 className="text-xs sm:text-base font-medium text-[#4E5A4A] leading-tight">
           {product.name}
@@ -39,13 +37,18 @@ function ProductCard({ product, onSelect }) {
           </p>
         )}
 
-        {/* EMPURRA O PREÇO PRA BAIXO */}
         <div className="mt-auto pt-2">
-          <p className="text-xs sm:text-sm text-[#6B7567]">
-            R$ {product.price.toLocaleString("pt-BR", {
-              minimumFractionDigits: 2,
-            })}
-          </p>
+          {product.price > 0 ? (
+            <p className="text-xs sm:text-sm text-[#6B7567]">
+              R$ {product.price.toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+              })}
+            </p>
+          ) : (
+            <p className="text-xs sm:text-sm text-[#6B7567]">
+              Valor livre 💚
+            </p>
+          )}
         </div>
       </div>
     </div>

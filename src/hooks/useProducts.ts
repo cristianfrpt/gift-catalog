@@ -36,18 +36,23 @@ export function useProducts() {
     return ["Todos", ...new Set(products.map(p => p.category))]
   }, [products])
 
-  const filteredProducts = useMemo(() => {
+   const filteredProducts = useMemo(() => {
     const base =
       selectedCategory === "Todos"
         ? products
         : products.filter(p => p.category === selectedCategory)
 
-    return base.sort((a, b) => {
-      if (a.available && !b.available) return -1
-      if (!a.available && b.available) return 1
+    const featured = base.find(p => p.id === 55)
+    const rest = base.filter(p => p.id !== 55)
 
-      return a.price - b.price
-    })
+    const sorted = rest
+      .map(p => ({
+        ...p,
+        weight: p.price * 0.1 + Math.random() * 250,
+      }))
+      .sort((a, b) => a.weight - b.weight)
+
+    return featured ? [featured, ...sorted] : sorted
   }, [products, selectedCategory])
 
   return {
