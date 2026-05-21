@@ -105,39 +105,51 @@ export default function ProductModal({
         <div className="mt-6 flex flex-col items-center">
 
           {isGift && !pixData && (
-            <div className="mb-6 w-full flex flex-col items-center">
+                <div className="mb-6 w-full flex flex-col items-center">
 
-              <label className="text-base text-[#5F6B5C] text-center mb-4 font-medium">
-                Digite o valor do presente
-              </label>
+                  <label className="text-base text-[#5F6B5C] text-center mb-4 font-medium">
+                    Digite o valor do presente
+                  </label>
 
-              <div className="relative w-36">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5F6B5C] font-medium">
-                R$
-              </span>
+                  <div className="relative w-36">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5F6B5C] font-medium">
+                    R$
+                  </span>
 
-              <input
-                type="number"
-                min="1"
-                value={customAmount}
-                onChange={(e) => setCustomAmount(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 text-center rounded-xl
-                          bg-white border-1 border-[#C9C2B8]
-                          shadow-sm
-                          text-[#4E5A4A] font-semibold
-                          focus:outline-none focus:ring-2 focus:ring-[#5F6B5C]/30
-                          focus:border-[#5F6B5C]
-                          transition
-                          [appearance:textfield]"
-              />
-            </div>
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    value={customAmount}
+                    onChange={(e) => {
+                      let value = e.target.value
+                      value = value.replace(/[^0-9,]/g, "")
+                      const parts = value.split(",")
+
+                      if (parts.length > 2) {
+                        value = parts[0] + "," + parts[1]
+                      }
+                      if (parts[1]?.length > 2) {
+                        value = parts[0] + "," + parts[1].slice(0, 2)
+                      }
+                      setCustomAmount(value)
+                    }}
+                    className="w-full pl-10 pr-3 py-2 text-center rounded-xl
+                              bg-white border-1 border-[#C9C2B8]
+                              shadow-sm
+                              text-[#4E5A4A] font-semibold
+                              focus:outline-none focus:ring-2 focus:ring-[#5F6B5C]/30
+                              focus:border-[#5F6B5C]
+                              transition
+                              [appearance:textfield]"
+                  />
+                </div>
             </div>
           )}
 
           {!pixData ? (
             <button
               onClick={generatePix}
-              disabled={loadingPix || (isGift && !customAmount)}
+              disabled={loadingPix}
               className="px-5 py-3 bg-[#5F6B5C] text-white rounded-xl text-sm hover:opacity-90 transition mb-6"
             >
               {loadingPix
