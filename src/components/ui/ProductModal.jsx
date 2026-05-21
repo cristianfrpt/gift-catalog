@@ -1,4 +1,4 @@
-import qrCodeImg from "../../assets/images/qrcode-ph.jpg"
+import { useState } from "react"
 
 export default function ProductModal({
   product,
@@ -7,6 +7,49 @@ export default function ProductModal({
   copied,
 }) {
   if (!product) return null
+  const [pixData, setPixData] = useState(null)
+  const [loadingPix, setLoadingPix] = useState(false)
+  const [copiedPix, setCopiedPix] = useState(false)
+
+  const generatePix = async () => {
+    try {
+      setLoadingPix(true)
+
+      const response = await fetch("/api/pix", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          amount: product.price,
+          description: product.name,
+        }),
+      })
+
+      const data = await response.json()
+
+      setPixData(data)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoadingPix(false)
+    }
+  }
+
+  const handleCopyPix = async () => {
+    if (!pixData?.qr_code) return
+
+    await navigator.clipboard.writeText(
+      pixData.qr_code
+    )
+
+    setCopiedPix(true)
+
+    setTimeout(() => {
+      setCopiedPix(false)
+    }, 2000)
+  }
 
   return (
     <div
@@ -44,25 +87,41 @@ export default function ProductModal({
 
         <div className="mt-6 flex flex-col items-center">
 
-          <div className="w-48 h-48 bg-white rounded-2xl shadow-sm overflow-hidden p-2">
-            <img
-              src={qrCodeImg}
-              alt="QR Code PIX"
-              className="w-full h-full object-contain"
-              draggable={false}
-            />
-          </div>
+          {!pixData ? (
+            <button
+              onClick={generatePix}
+              disabled={loadingPix}
+              className="px-5 py-3 bg-[#5F6B5C] text-white rounded-xl text-sm hover:opacity-90 transition mb-6"
+            >
+              {loadingPix
+                ? "Gerando PIX..."
+                : "Presentear 💚"}
+            </button>
+          ) : (
+            <>
+              <div className="w-48 h-48 bg-white rounded-2xl shadow-sm overflow-hidden p-2">
+                <img
+                  src={`data:image/png;base64,${pixData.qr_code_base64}`}
+                  alt="QR Code PIX"
+                  className="w-full h-full object-contain"
+                  draggable={false}
+                />
+              </div>
 
-          <button
-            onClick={onCopyPix}
-            className="mt-4 px-4 py-2 bg-[#5F6B5C] text-white rounded-xl text-sm hover:opacity-90 transition"
-          >
-            {copied ? "Copiado 💚" : "Copiar código PIX"}
-          </button>
-          
-          <p className="mt-4 text-sm text-[#6B7567] text-center">
-            Faça o PIX utilizando o QR Code acima 💚
-          </p>
+              <button
+                onClick={handleCopyPix}
+                className="mt-4 px-4 py-2 bg-[#5F6B5C] text-white rounded-xl text-sm hover:opacity-90 transition"
+              >
+                {copiedPix
+                  ? "Copiado 💚"
+                  : "Copiar código PIX"}
+              </button>
+
+              <p className="mt-4 text-sm text-[#6B7567] text-center">
+                Faça o PIX utilizando o QR Code acima 💚
+              </p>
+            </>
+          )}
         </div>
 
       </div>
