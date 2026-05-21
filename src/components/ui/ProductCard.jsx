@@ -8,8 +8,9 @@ function ProductCard({ product, onSelect }) {
         onSelect(product)
       }}
       className={`
-        bg-white rounded-2xl shadow-sm p-4
+        bg-white rounded-2xl shadow-sm p-2 sm:p-4
         transition-all duration-300 ease-out transform
+        flex flex-col h-full
 
         ${isUnavailable
           ? "opacity-40 cursor-not-allowed"
@@ -17,7 +18,8 @@ function ProductCard({ product, onSelect }) {
         }
       `}
     >
-      <div className="aspect-square w-full bg-[#E8E2DA] rounded-xl mb-4 overflow-hidden">
+      {/* IMAGEM */}
+      <div className="aspect-square w-full bg-[#E8E2DA] rounded-xl mb-2 sm:mb-4 overflow-hidden">
         <img
           src={`/images/products/${product.image}`}
           alt={product.name}
@@ -25,21 +27,27 @@ function ProductCard({ product, onSelect }) {
         />
       </div>
 
-      <h3 className="text-sm sm:text-base font-medium text-[#4E5A4A]">
-        {product.name}
-      </h3>
+      {/* CONTEÚDO */}
+      <div className="flex flex-col flex-1">
+        <h3 className="text-xs sm:text-base font-medium text-[#4E5A4A] leading-tight">
+          {product.name}
+        </h3>
 
-      {isUnavailable && (
-        <p className="text-sm text-red-400 mt-1">
-          Indisponível
-        </p>
-      )}
+        {isUnavailable && (
+          <p className="text-[10px] sm:text-sm text-red-400 mt-1">
+            Indisponível
+          </p>
+        )}
 
-      <p className="text-[#6B7567] mt-2">
-        R$ {product.price.toLocaleString("pt-BR", {
-          minimumFractionDigits: 2,
-        })}
-      </p>
+        {/* EMPURRA O PREÇO PRA BAIXO */}
+        <div className="mt-auto pt-2">
+          <p className="text-xs sm:text-sm text-[#6B7567]">
+            R$ {product.price.toLocaleString("pt-BR", {
+              minimumFractionDigits: 2,
+            })}
+          </p>
+        </div>
+      </div>
     </div>
   )
 }
