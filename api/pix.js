@@ -1,8 +1,14 @@
-import { MercadoPagoConfig, Payment } from "mercadopago"
+import { MercadoPagoConfig, Payment } from 'mercadopago'
+import { createClient } from '@supabase/supabase-js'
 
 const client = new MercadoPagoConfig({
   accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
 })
+
+const supabase = createClient(
+  process.env.VITE_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+)
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,11 +18,35 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { amount, description } = req.body
+    const { amount, productId } = req.body
 
     if (!amount || amount <= 0) {
       return res.status(400).json({
-        error: "Valor inválido",
+        error: 'Valor inválido',
+      })
+    }
+
+    if (!productId) {
+      return res.status(400).json({
+        error: 'Produto inválido',
+      })
+    }
+
+    const { data: product, error: productError } = await supabase
+      .from('products')
+      .select('id, available')
+      .eq('id', productId)
+      .single()
+
+    if (productError || !product) {
+      return res.status(404).json({
+        error: 'Produto não encontrado',
+      })
+    }
+
+    if (!product.available) {
+      return res.status(400).json({
+        error: 'Produto indisponível',
       })
     }
 
@@ -31,14 +61,38 @@ export default async function handler(req, res) {
         payer: {
           email: 'test_user_123@testuser.com',
         },
+
+        notification_url:
+          'https://cha-camila.vercel.app/api/webhook',
       },
     })
 
+    const { error: paymentError } = await supabase
+      .from('payments')
+      .insert({
+        payment_id: String(result.id),
+        product_id: productId,
+        amount,
+        status: 'pending',
+      })
+
+    if (paymentError) {
+      console.error(paymentError)
+
+      return res.status(500).json({
+        error: 'Erro ao salvar pagamento',
+      })
+    }
+
     return res.status(200).json({
       id: result.id,
-      qr_code: result.point_of_interaction.transaction_data.qr_code,
+
+      qr_code:
+        result.point_of_interaction.transaction_data.qr_code,
+
       qr_code_base64:
-        result.point_of_interaction.transaction_data.qr_code_base64,
+        result.point_of_interaction.transaction_data
+          .qr_code_base64,
     })
   } catch (error) {
     console.error(error)

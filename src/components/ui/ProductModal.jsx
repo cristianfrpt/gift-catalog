@@ -33,14 +33,14 @@ export default function ProductModal({
       }
 
       const response = await fetch("/api/pix", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount,
-          description: product.name,
-        }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount,
+            productId: product.id,
+          })
       })
 
       const data = await response.json()
