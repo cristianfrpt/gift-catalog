@@ -14,91 +14,60 @@ const supabase = createClient(
 )
 
 export default async function handler(req, res) {
-  console.log('\n========== MP WEBHOOK START ==========')
-  console.log('[MP WEBHOOK] method:', req.method)
-  console.log('[MP WEBHOOK] url:', req.url)
-  console.log('[MP WEBHOOK] body:', req.body)
-
   const type = req.body?.type
 
   if (type !== 'payment') {
-    console.log('[MP WEBHOOK] ignoring non-payment event:', type)
     return res.status(200).send('ignored')
   }
 
-
   const validation = verifyMercadoPagoSignature(req)
 
-  console.log('[MP WEBHOOK] signature valid:', validation.valid)
-
   if (!validation.valid) {
-    console.log('[MP WEBHOOK] invalid signature -> 401')
-    return res.status(401).json({
-      error: 'Invalid signature'
-    })
+    console.log('[MP WEBHOOK] invalid signature')
+    return res.status(200).send('invalid signature')
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).send('method not allowed')
+  }
+
+  const paymentId = req.body?.data?.id
+
+  if (!paymentId) {
+    return res.status(200).send('missing paymentId')
   }
 
   try {
-    if (req.method !== 'POST') {
-      console.log('[MP WEBHOOK] invalid method:', req.method)
-      return res.status(405).send('Method not allowed')
-    }
-
-    const paymentId = req.body?.data?.id
-
-    console.log('[MP WEBHOOK] paymentId:', paymentId)
-
-    if (!paymentId) {
-      console.log('[MP WEBHOOK] missing paymentId -> ignoring')
-      return res.status(200).send('ok')
-    }
-
-    console.log('[MP WEBHOOK] fetching payment from MP API...')
-
-    const payment = await paymentApi.get({
-      id: paymentId
-    })
-
-    console.log('[MP WEBHOOK] payment status:', payment.status)
-    console.log('[MP WEBHOOK] payment approved_at:', payment.date_approved)
+    const payment = await paymentApi.get({ id: paymentId })
 
     const isApproved =
       payment.status === 'approved' ||
       payment.date_approved !== null
 
     if (!isApproved) {
-      console.log('[MP WEBHOOK] payment not approved yet')
       return res.status(200).send('pending')
     }
 
-    console.log('[MP WEBHOOK] checking supabase payment record...')
-
-    const { data: paymentRecord, error: paymentError } = await supabase
+    const { data: paymentRecord, error } = await supabase
       .from('payments')
-      .select('*')
+      .select('id, status, product_id')
       .eq('payment_id', String(paymentId))
       .maybeSingle()
 
-    if (paymentError) {
-      console.error('[MP WEBHOOK] supabase select error', paymentError)
-      return res.status(500).send('Erro supabase')
+    if (error) {
+      console.log('[MP WEBHOOK] supabase error')
+      return res.status(500).send('supabase error')
     }
 
-    console.log('[MP WEBHOOK] paymentRecord:', paymentRecord)
-
     if (!paymentRecord) {
-      console.log('[MP WEBHOOK] payment not found in DB')
-      return res.status(404).send('Pagamento não encontrado')
+      return res.status(200).send('not found')
     }
 
     if (paymentRecord.status === 'approved') {
-      console.log('[MP WEBHOOK] already processed')
       return res.status(200).send('already processed')
     }
 
-    console.log('[MP WEBHOOK] updating payment status...')
-
-    const { error: updatePaymentError } = await supabase
+    await supabase
       .from('payments')
       .update({
         status: 'approved',
@@ -106,34 +75,17 @@ export default async function handler(req, res) {
       })
       .eq('payment_id', String(paymentId))
 
-    if (updatePaymentError) {
-      console.error('[MP WEBHOOK] update payment error', updatePaymentError)
-      return res.status(500).send('Erro update payment')
-    }
-
-    console.log('[MP WEBHOOK] payment updated successfully')
-
-    console.log('[MP WEBHOOK] updating product availability...')
-
-    const { error: productError } = await supabase
+    await supabase
       .from('products')
-      .update({
-        available: false
-      })
+      .update({ available: false })
       .neq('type', 'gift')
       .eq('id', paymentRecord.product_id)
 
-    if (productError) {
-      console.error('[MP WEBHOOK] product update error', productError)
-      return res.status(500).send('Erro update product')
-    }
-
-    console.log('[MP WEBHOOK] product updated successfully')
-    console.log('========== MP WEBHOOK END OK ==========\n')
+    console.log('[MP WEBHOOK] payment processed:', paymentId)
 
     return res.status(200).send('ok')
   } catch (error) {
-    console.error('[MP WEBHOOK] fatal error', error)
-    return res.status(500).send('Erro webhook')
+    console.log('[MP WEBHOOK] error')
+    return res.status(500).send('error')
   }
 }
