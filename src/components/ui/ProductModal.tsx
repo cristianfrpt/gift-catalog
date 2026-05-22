@@ -18,6 +18,9 @@ export default function ProductModal({
   const [paymentApproved, setPaymentApproved] = useState(false)
   const [pollingId, setPollingId] = useState<number | null>(null)
   const isGift = product?.type === "gift"
+  const showInput = isGift && !pixData && !paymentApproved
+  const showQR = pixData && !paymentApproved
+  const showSuccess = paymentApproved
 
   if (!product) return null
 
@@ -27,6 +30,7 @@ export default function ProductModal({
     setCopiedPix(false)
     setCustomAmount("")
     setPaymentApproved(false)
+    setPollingId(null)
   }, [product])
 
   useEffect(() => {
@@ -56,14 +60,14 @@ export default function ProductModal({
       }
 
       const response = await fetch("/api/pix", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount,
-            productId: product.id,
-          })
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount,
+          productId: product.id,
+        })
       })
 
       const data: PixData = await response.json()
@@ -150,69 +154,44 @@ export default function ProductModal({
 
         <div className="mt-6 flex flex-col items-center">
 
-          {isGift && !pixData && (
-                <div className="mb-6 w-full flex flex-col items-center">
+          {showInput && (
+            <div className="mb-6 w-full flex flex-col items-center">
 
-                  <label className="text-base text-[#5F6B5C] text-center mb-4 font-medium">
-                    Digite o valor do presente
-                  </label>
+              <label className="text-base text-[#5F6B5C] text-center mb-4 font-medium">
+                Digite o valor do presente
+              </label>
 
-                  <div className="relative w-36">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5F6B5C] font-medium">
-                    R$
-                  </span>
+              <div className="relative w-36">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5F6B5C] font-medium">
+                  R$
+                </span>
 
-                  <input
-                    type="text"
-                    inputMode="decimal"
-                    value={customAmount}
-                    onChange={(e) => {
-                      let value = e.target.value
-                      value = value.replace(/[^0-9,]/g, "")
-                      const parts = value.split(",")
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={customAmount}
+                  onChange={(e) => {
+                    let value = e.target.value
+                    value = value.replace(/[^0-9,]/g, "")
+                    const parts = value.split(",")
 
-                      if (parts.length > 2) {
-                        value = parts[0] + "," + parts[1]
-                      }
-                      if (parts[1]?.length > 2) {
-                        value = parts[0] + "," + parts[1].slice(0, 2)
-                      }
-                      setCustomAmount(value)
-                    }}
-                    className="w-full pl-10 pr-3 py-2 text-center rounded-xl
-                              bg-white border-1 border-[#C9C2B8]
-                              shadow-sm
-                              text-[#4E5A4A] font-semibold
-                              focus:outline-none focus:ring-2 focus:ring-[#5F6B5C]/30
-                              focus:border-[#5F6B5C]
-                              transition
-                              [appearance:textfield]"
-                  />
-                </div>
+                    if (parts.length > 2) {
+                      value = parts[0] + "," + parts[1]
+                    }
+                    if (parts[1]?.length > 2) {
+                      value = parts[0] + "," + parts[1].slice(0, 2)
+                    }
+
+                    setCustomAmount(value)
+                  }}
+                  className="w-full pl-10 pr-3 py-2 text-center rounded-xl bg-white border-1 border-[#C9C2B8]"
+                />
+              </div>
             </div>
           )}
 
-          {paymentApproved ? (
-            <div className="flex flex-col items-center text-center py-6">
-              <h2 className="text-2xl font-semibold text-[#5F6B5C] text-center">
-                Pagamento confirmado 💚
-              </h2>
 
-              <p className="mt-4 text-sm text-[#6B7567] text-center leading-relaxed">
-                Obrigado pelo presente!
-              </p>
-            </div>
-          ) : !pixData ? (
-            <button
-              onClick={generatePix}
-              disabled={loadingPix}
-              className="px-5 py-3 bg-[#5F6B5C] text-white rounded-xl text-sm hover:opacity-90 transition mb-6"
-            >
-              {loadingPix
-                ? "Gerando PIX..."
-                : "Presentear 💚"}
-            </button>
-          ) : (
+          {showQR && (
             <>
               <div className="w-48 h-48 bg-white rounded-2xl shadow-sm overflow-hidden p-2">
                 <img
@@ -225,11 +204,9 @@ export default function ProductModal({
 
               <button
                 onClick={handleCopyPix}
-                className="mt-4 px-4 py-2 bg-[#5F6B5C] text-white rounded-xl text-sm hover:opacity-90 transition"
+                className="mt-4 px-4 py-2 bg-[#5F6B5C] text-white rounded-xl text-sm"
               >
-                {copiedPix
-                  ? "Copiado 💚"
-                  : "Copiar código PIX"}
+                {copiedPix ? "Copiado 💚" : "Copiar código PIX"}
               </button>
 
               <p className="mt-4 text-sm text-[#6B7567] text-center">
@@ -237,6 +214,34 @@ export default function ProductModal({
               </p>
             </>
           )}
+
+          {showSuccess && (
+            <div className="flex flex-col items-center text-center -mt-4 pb-2">
+
+              <div className="text-3xl mb-2">💚</div>
+
+              <h2 className="text-lg font-semibold text-[#4E5A4A]">
+                Pagamento confirmado
+              </h2>
+
+              <p className="mt-2 text-sm text-[#6B7567]">
+                Obrigado pelo presente!
+              </p>
+
+            </div>
+          )}
+
+
+          {!pixData && !paymentApproved && (
+            <button
+              onClick={generatePix}
+              disabled={loadingPix}
+              className="px-5 py-3 bg-[#5F6B5C] text-white rounded-xl text-sm hover:opacity-90 transition mb-6"
+            >
+              {loadingPix ? "Gerando PIX..." : "Presentear 💚"}
+            </button>
+          )}
+
         </div>
 
       </div>
