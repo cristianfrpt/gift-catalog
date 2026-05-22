@@ -1,6 +1,6 @@
 import { MercadoPagoConfig, Payment } from 'mercadopago'
 import { createClient } from '@supabase/supabase-js'
-import { verifyMercadoPagoSignature } from '../lib/webhook-auth'
+import { verifyMercadoPagoSignature } from '../lib/webhook-auth.js'
 
 const mercadopago = new MercadoPagoConfig({
   accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
