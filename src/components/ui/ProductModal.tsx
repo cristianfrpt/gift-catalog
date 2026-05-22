@@ -72,7 +72,7 @@ export default function ProductModal({
 
       const data: PixData = await response.json()
       setPixData(data)
-      startPolling(data.id)
+      startPolling(data.paymentToken)
     } catch (error) {
       console.error(error)
     } finally {
@@ -80,11 +80,11 @@ export default function ProductModal({
     }
   }
 
-  const startPolling = (paymentId: string): void => {
+  const startPolling = (paymentToken: string): void => {
     const interval = setInterval(async () => {
       try {
         const response = await fetch(
-          `/api/payment-status?id=${paymentId}`
+          `/api/payment-status?token=${paymentToken}`
         )
 
         const data = await response.json()
@@ -97,7 +97,7 @@ export default function ProductModal({
       } catch (error) {
         console.error(error)
       }
-    }, 3000)
+    }, 8000)
 
     setPollingId(interval)
   }

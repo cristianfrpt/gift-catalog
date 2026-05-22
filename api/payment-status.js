@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { rateLimit } from '../lib/rate-limit.js'
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
@@ -6,9 +7,20 @@ const supabase = createClient(
 )
 
 export default async function handler(req, res) {
-  const { id } = req.query
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
 
-  if (!id) {
+  const allowed = rateLimit(ip, 25)
+
+  if (!allowed) {
+    return res.status(429).json({
+      error: 'Too many requests'
+    })
+  }
+  
+
+  const { token } = req.query
+
+  if (!token) {
     return res.status(400).json({
       error: 'Missing payment id',
     })
@@ -17,9 +29,15 @@ export default async function handler(req, res) {
   const { data, error } = await supabase
     .from('payments')
     .select('status')
-    .eq('payment_id', String(id))
+    .eq('public_token', token)
     .single()
 
+  if (!data) {
+    return res.status(404).json({
+      error: 'Pagamento não encontrado',
+    })
+  }
+  
   if (error) {
     return res.status(500).json({
       error: 'Erro ao buscar pagamento',

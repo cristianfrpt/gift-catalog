@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from "react"
-import { supabase } from "../lib/supabase"
+import { createClient } from '@supabase/supabase-js'
 import type { Product } from "../types/product"
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+)
 
 export function useProducts() {
   const [products, setProducts] = useState<Product[]>([])
