@@ -98,6 +98,7 @@ export default async function handler(req, res) {
     const { error: productError } = await supabase
       .from('products')
       .update({ available: false })
+      .neq('type', 'gift')
       .eq('id', paymentRecord.product_id)
 
     if (productError) {
