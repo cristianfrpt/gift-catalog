@@ -81,6 +81,13 @@ export default function ProductModal({
       })
 
       const data: PixData = await response.json()
+
+      if (!data?.paymentToken) {
+        console.error("PIX inválido:", data)
+        alert("Erro ao gerar PIX. Tente novamente.")
+        return
+      }
+
       setPixData(data)
       startPolling(data.paymentToken)
     } catch (error) {
@@ -91,12 +98,21 @@ export default function ProductModal({
   }
 
   const startPolling = (paymentToken: string): void => {
+    if (!paymentToken) return
+
     const interval = setInterval(async () => {
       try {
         const response = await fetch(
           `/api/payment-status?token=${paymentToken}`
         )
 
+        if (response.status === 404) {
+          clearInterval(interval)
+          setPollingId(null)
+          console.error("Pagamento não encontrado")
+          return
+        }
+        
         const data = await response.json()
 
         if (data.status === "approved") {
@@ -128,7 +144,7 @@ export default function ProductModal({
     <div
       className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center"
       style={{
-        caretColor: "transparent", 
+        caretColor: "transparent",
       }}
       onClick={onClose}
     >
