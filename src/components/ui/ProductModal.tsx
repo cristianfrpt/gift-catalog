@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import type { Product } from "../../types/product"
+import type { PixData } from "../../types/pix"
 
 type ProductModalProps = {
   product: Product | null
@@ -10,12 +11,12 @@ export default function ProductModal({
   product,
   onClose,
 }: ProductModalProps) {
-  const [pixData, setPixData] = useState(null)
+  const [pixData, setPixData] = useState<PixData | null>(null)
   const [loadingPix, setLoadingPix] = useState(false)
   const [copiedPix, setCopiedPix] = useState(false)
   const [customAmount, setCustomAmount] = useState("")
   const [paymentApproved, setPaymentApproved] = useState(false)
-  const [pollingId, setPollingId] = useState(null)
+  const [pollingId, setPollingId] = useState<number | null>(null)
   const isGift = product?.type === "gift"
 
   if (!product) return null
@@ -40,7 +41,7 @@ export default function ProductModal({
     try {
       setLoadingPix(true)
 
-      const parseAmount = (value) => {
+      const parseAmount = (value: string): number => {
         if (!value) return 0
         return Number(value.replace(",", "."))
       }
@@ -65,7 +66,7 @@ export default function ProductModal({
           })
       })
 
-      const data = await response.json()
+      const data: PixData = await response.json()
       setPixData(data)
       startPolling(data.id)
     } catch (error) {
@@ -75,7 +76,7 @@ export default function ProductModal({
     }
   }
 
-  const startPolling = (paymentId) => {
+  const startPolling = (paymentId: string): void => {
     const interval = setInterval(async () => {
       try {
         const response = await fetch(
