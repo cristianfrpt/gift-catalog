@@ -71,9 +71,9 @@ export default async function handler(req, res) {
         payment_method_id: 'pix',
         
         payer: {
-          email: 'test@test.com',
+          email: 'convidadocha01@gmail.com',
         },
-        
+
         notification_url:
           'https://cha-camila.vercel.app/api/webhook',
       },
