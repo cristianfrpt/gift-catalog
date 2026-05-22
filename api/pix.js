@@ -69,7 +69,7 @@ export default async function handler(req, res) {
         transaction_amount: Number(amount),
         description: 'Cha de casa nova',
         payment_method_id: 'pix',
-
+        payer: {},
         notification_url:
           'https://cha-camila.vercel.app/api/webhook',
       },
