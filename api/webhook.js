@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   console.log('[MP WEBHOOK] url:', req.url)
   console.log('[MP WEBHOOK] body:', req.body)
 
-  const type = body?.type
+  const type = req.body?.type
 
   if (type !== 'payment') {
     console.log('[MP WEBHOOK] ignoring non-payment event:', type)
