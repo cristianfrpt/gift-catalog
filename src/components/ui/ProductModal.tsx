@@ -14,6 +14,8 @@ export default function ProductModal({
   const [loadingPix, setLoadingPix] = useState(false)
   const [copiedPix, setCopiedPix] = useState(false)
   const [customAmount, setCustomAmount] = useState("")
+  const [paymentApproved, setPaymentApproved] = useState(false)
+  const [pollingId, setPollingId] = useState(null)
   const isGift = product?.type === "gift"
 
   if (!product) return null
@@ -23,7 +25,16 @@ export default function ProductModal({
     setLoadingPix(false)
     setCopiedPix(false)
     setCustomAmount("")
+    setPaymentApproved(false)
   }, [product])
+
+  useEffect(() => {
+    return () => {
+      if (pollingId) {
+        clearInterval(pollingId)
+      }
+    }
+  }, [pollingId])
 
   const generatePix = async () => {
     try {
@@ -56,11 +67,34 @@ export default function ProductModal({
 
       const data = await response.json()
       setPixData(data)
+      startPolling(data.id)
     } catch (error) {
       console.error(error)
     } finally {
       setLoadingPix(false)
     }
+  }
+
+  const startPolling = (paymentId) => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(
+          `/api/payment-status?id=${paymentId}`
+        )
+
+        const data = await response.json()
+
+        if (data.status === 'approved') {
+          clearInterval(interval)
+          setPollingId(null)
+          setPaymentApproved(true)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }, 3000)
+
+    setPollingId(interval)
   }
 
   const handleCopyPix = async () => {
@@ -157,7 +191,17 @@ export default function ProductModal({
             </div>
           )}
 
-          {!pixData ? (
+          {paymentApproved ? (
+            <div className="flex flex-col items-center text-center py-6">
+              <h2 className="text-2xl font-semibold text-[#5F6B5C] text-center">
+                Pagamento confirmado 💚
+              </h2>
+
+              <p className="mt-4 text-sm text-[#6B7567] text-center leading-relaxed">
+                Obrigado pelo presente!
+              </p>
+            </div>
+          ) : !pixData ? (
             <button
               onClick={generatePix}
               disabled={loadingPix}
