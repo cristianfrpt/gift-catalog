@@ -58,11 +58,17 @@ export function useProducts() {
         : fixedProducts.filter(p => p.category === selectedCategory)
 
     const sorted = base
-      .map(p => ({
-        ...p,
-        weight: p.price * 0.1 + Math.random() * 250,
-      }))
-      .sort((a, b) => a.weight - b.weight)
+    .map(p => ({
+      ...p,
+      weight: p.price * 0.1 + Math.random() * 250,
+    }))
+    .sort((a, b) => {
+      if (a.available !== b.available) {
+        return a.available ? -1 : 1
+      }
+      return a.weight - b.weight
+    })
+
 
     return [...giftProducts, ...sorted]
   }, [fixedProducts, giftProducts, selectedCategory])
