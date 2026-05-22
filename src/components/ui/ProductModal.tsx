@@ -80,6 +80,13 @@ export default function ProductModal({
         }),
       })
 
+      if (!response.ok) {
+        const err = await response.text()
+        console.error("Erro PIX:", err)
+        setLoadingPix(false)
+        return
+      }
+
       const data: PixData = await response.json()
 
       if (!data?.paymentToken) {
@@ -112,7 +119,7 @@ export default function ProductModal({
           console.error("Pagamento não encontrado")
           return
         }
-        
+
         const data = await response.json()
 
         if (data.status === "approved") {
