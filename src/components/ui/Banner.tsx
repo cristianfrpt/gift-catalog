@@ -67,7 +67,7 @@ function Banner({
             </button>
           </div>
 
-          <p>📅 24 de Junho de 2026</p>
+          <p>📅 30 de Junho de 2026</p>
 
           <p>🕖 19h00</p>
         </div>
