@@ -19,6 +19,14 @@ export default async function handler(req, res) {
   console.log('[MP WEBHOOK] url:', req.url)
   console.log('[MP WEBHOOK] body:', req.body)
 
+  const type = body?.type
+
+  if (type !== 'payment') {
+    console.log('[MP WEBHOOK] ignoring non-payment event:', type)
+    return res.status(200).send('ignored')
+  }
+
+
   const validation = verifyMercadoPagoSignature(req)
 
   console.log('[MP WEBHOOK] signature valid:', validation.valid)
