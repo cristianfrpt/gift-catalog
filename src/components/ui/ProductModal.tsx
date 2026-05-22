@@ -17,6 +17,7 @@ export default function ProductModal({
   const [customAmount, setCustomAmount] = useState("")
   const [paymentApproved, setPaymentApproved] = useState(false)
   const [pollingId, setPollingId] = useState<number | null>(null)
+
   const isGift = product?.type === "gift"
   const showInput = isGift && !pixData && !paymentApproved
   const showQR = pixData && !paymentApproved
@@ -31,15 +32,24 @@ export default function ProductModal({
     setCustomAmount("")
     setPaymentApproved(false)
     setPollingId(null)
+
+    requestAnimationFrame(() => {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur()
+      }
+    })
   }, [product])
 
   useEffect(() => {
     return () => {
-      if (pollingId) {
-        clearInterval(pollingId)
-      }
+      if (pollingId) clearInterval(pollingId)
     }
   }, [pollingId])
+
+  useEffect(() => {
+    const el = document.activeElement
+    if (el instanceof HTMLElement) el.blur()
+  }, [pixData, paymentApproved])
 
   const generatePix = async () => {
     try {
@@ -67,7 +77,7 @@ export default function ProductModal({
         body: JSON.stringify({
           amount,
           productId: product.id,
-        })
+        }),
       })
 
       const data: PixData = await response.json()
@@ -89,7 +99,7 @@ export default function ProductModal({
 
         const data = await response.json()
 
-        if (data.status === 'approved') {
+        if (data.status === "approved") {
           clearInterval(interval)
           setPollingId(null)
           setPaymentApproved(true)
@@ -105,9 +115,7 @@ export default function ProductModal({
   const handleCopyPix = async () => {
     if (!pixData?.qr_code) return
 
-    await navigator.clipboard.writeText(
-      pixData.qr_code
-    )
+    await navigator.clipboard.writeText(pixData.qr_code)
 
     setCopiedPix(true)
 
@@ -119,13 +127,16 @@ export default function ProductModal({
   return (
     <div
       className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center"
+      style={{
+        caretColor: "transparent", 
+      }}
       onClick={onClose}
     >
       <div
         className="bg-[#F7F3EE] rounded-3xl max-w-sm w-full p-5 relative shadow-xl"
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
       >
-
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-[#5F6B5C] text-2xl"
@@ -153,10 +164,8 @@ export default function ProductModal({
         )}
 
         <div className="mt-6 flex flex-col items-center">
-
           {showInput && (
             <div className="mb-6 w-full flex flex-col items-center">
-
               <label className="text-base text-[#5F6B5C] text-center mb-4 font-medium">
                 Digite o valor do presente
               </label>
@@ -185,11 +194,11 @@ export default function ProductModal({
                     setCustomAmount(value)
                   }}
                   className="w-full pl-10 pr-3 py-2 text-center rounded-xl bg-white border-1 border-[#C9C2B8]"
+                  style={{ caretColor: "black" }}
                 />
               </div>
             </div>
           )}
-
 
           {showQR && (
             <>
@@ -217,7 +226,6 @@ export default function ProductModal({
 
           {showSuccess && (
             <div className="flex flex-col items-center text-center -mt-4 pb-2">
-
               <div className="text-3xl mb-2">💚</div>
 
               <h2 className="text-lg font-semibold text-[#4E5A4A]">
@@ -227,10 +235,8 @@ export default function ProductModal({
               <p className="mt-2 text-sm text-[#6B7567]">
                 Obrigado pelo presente!
               </p>
-
             </div>
           )}
-
 
           {!pixData && !paymentApproved && (
             <button
@@ -241,9 +247,7 @@ export default function ProductModal({
               {loadingPix ? "Gerando PIX..." : "Presentear 💚"}
             </button>
           )}
-
         </div>
-
       </div>
     </div>
   )

@@ -17,10 +17,12 @@ export default function ProductCard({
         if (isUnavailable) return
         onSelect(product)
       }}
+      tabIndex={-1}
       className={`
         bg-white rounded-2xl shadow-sm p-2 sm:p-4
         transition-all duration-300 ease-out transform
         flex flex-col h-full
+        select-none caret-transparent
 
         ${
           isUnavailable
@@ -34,6 +36,7 @@ export default function ProductCard({
           src={`/images/products/${product.image}`}
           alt={product.name}
           className="w-full h-full object-cover"
+          draggable={false}
         />
       </div>
 
